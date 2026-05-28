@@ -299,6 +299,100 @@ def delete_termin(id):
     return jsonify({"message": "Termin obrisan"})
 
 
+@app.route("/api/termini/<int:id>", methods=["PUT"])
+def update_termin(id):
+    t = Termin.query.get_or_404(id)
+    d = request.json
+
+    t.pacijent_id = d.get("pacijent_id", t.pacijent_id)
+    t.lijecnik_id = d.get("lijecnik_id", t.lijecnik_id)
+    t.ustanova_id = d.get("ustanova_id", t.ustanova_id)
+    if d.get("datum_vrijeme"):
+        t.datum_vrijeme = datetime.fromisoformat(d["datum_vrijeme"])
+    t.tip_pregleda = d.get("tip_pregleda", t.tip_pregleda)
+    t.napomena = d.get("napomena", t.napomena)
+    t.video_konzultacija = d.get("video_konzultacija", t.video_konzultacija)
+
+    db.session.commit()
+    return jsonify({"message": "Termin ažuriran"})
+
+
+@app.route("/api/recepti/<int:id>", methods=["PUT"])
+def update_recept(id):
+    r = Recept.query.get_or_404(id)
+    d = request.json
+
+    r.lijek = d.get("lijek", r.lijek)
+    r.doza = d.get("doza", r.doza)
+    r.trajanje_dani = d.get("trajanje_dani", r.trajanje_dani)
+    r.napomena = d.get("napomena", r.napomena)
+    if d.get("datum_izdavanja"):
+        r.datum_izdavanja = datetime.fromisoformat(d["datum_izdavanja"]).date()
+
+    db.session.commit()
+    return jsonify({"message": "Recept ažuriran"})
+
+
+@app.route("/api/nalazi/<int:id>", methods=["PUT"])
+def update_nalaz(id):
+    n = Nalaz.query.get_or_404(id)
+    d = request.json
+
+    n.vrsta_nalaza = d.get("vrsta_nalaza", n.vrsta_nalaza)
+    n.opis = d.get("opis", n.opis)
+    n.dokument = d.get("dokument", n.dokument)
+    if d.get("datum"):
+        n.datum = datetime.fromisoformat(d["datum"]).date()
+    n.termin_id = d.get("termin_id", n.termin_id)
+
+    db.session.commit()
+    return jsonify({"message": "Nalaz ažuriran"})
+
+
+@app.route("/api/ustanova/<int:id>", methods=["PUT"])
+def update_ustanova(id):
+    u = Ustanova.query.get_or_404(id)
+    d = request.json
+
+    u.naziv = d.get("naziv", u.naziv)
+    u.adresa = d.get("adresa", u.adresa)
+    u.postanski_broj = d.get("postanski_broj", u.postanski_broj)
+    u.grad = d.get("grad", u.grad)
+    u.kontakt_telefon = d.get("kontakt_telefon", u.kontakt_telefon)
+    u.email = d.get("email", u.email)
+    u.pristupacnost = d.get("pristupacnost", u.pristupacnost)
+
+    db.session.commit()
+    return jsonify({"message": "Ustanova ažurirana"})
+
+
+@app.route("/api/podsjetnici/<int:id>", methods=["PUT"])
+def update_podsjetnik(id):
+    p = Podsjetnik.query.get_or_404(id)
+    d = request.json
+
+    p.pacijent_id = d.get("pacijent_id", p.pacijent_id)
+    p.sadrzaj = d.get("sadrzaj", p.sadrzaj)
+    if d.get("vrijeme"):
+        p.vrijeme = datetime.fromisoformat(d["vrijeme"])
+    p.poslano = d.get("poslano", p.poslano)
+
+    db.session.commit()
+    return jsonify({"message": "Podsjetnik ažuriran"})
+
+
+@app.route("/api/prituzbe/<int:id>", methods=["PUT"])
+def update_prituzba(id):
+    p = Prituzba.query.get_or_404(id)
+    d = request.json
+
+    p.sadrzaj = d.get("sadrzaj", p.sadrzaj)
+    if d.get("datum"):
+        p.datum = datetime.fromisoformat(d["datum"]).date()
+
+    db.session.commit()
+    return jsonify({"message": "Pritužba ažurirana"})
+
 
 # OSTALO (FULL READ)
 
@@ -339,7 +433,12 @@ def get_ustanove():
         {
             "ustanova_id": u.ustanova_id,
             "naziv": u.naziv,
-            "grad": u.grad
+            "grad": u.grad,
+            "adresa": u.adresa,
+            "postanski_broj": u.postanski_broj,
+            "kontakt_telefon": u.kontakt_telefon,
+            "email": u.email,
+            "pristupacnost": u.pristupacnost
         }
         for u in Ustanova.query.all()
     ])

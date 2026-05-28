@@ -167,6 +167,10 @@ def update_pacijent(id):
     p.ime = d.get("ime", p.ime)
     p.prezime = d.get("prezime", p.prezime)
     p.email = d.get("email", p.email)
+    p.datum_rodenja = p.datum_rodenja
+    p.spol = d.get("spol", p.spol)
+    p.adresa = d.get("adresa", p.adresa)
+    p.telefon = d.get("telefon", p.telefon)
 
     db.session.commit()
     return jsonify({"message": "Pacijent ažuriran"})
@@ -223,6 +227,11 @@ def update_lijecnik(id):
 
     l.ime = d.get("ime", l.ime)
     l.prezime = d.get("prezime", l.prezime)
+    l.specijalizacija = d.get("specijalizacija", l.specijalizacija)
+    l.email = d.get("email", l.email)
+    l.ustanova_id = d.get("ustanova_id", l.ustanova_id)
+    l.oib = d.get("oib", l.oib)
+    l.broj_licence = d.get("broj_licence", l.broj_licence)
 
     db.session.commit()
     return jsonify({"message": "Liječnik ažuriran"})

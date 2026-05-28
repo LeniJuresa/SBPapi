@@ -10,9 +10,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
-# =========================
+
 # MODELI
-# =========================
+
 
 class Pacijent(db.Model):
     __tablename__ = "Pacijent"
@@ -113,9 +113,9 @@ class Prituzba(db.Model):
     datum = db.Column(db.Date)
 
 
-# =========================
+
 # HOME
-# =========================
+
 
 @app.route("/")
 def home():
@@ -123,9 +123,9 @@ def home():
 
 
 
-# =========================
+
 # PACIJENT CRUD
-# =========================
+
 
 @app.route("/api/pacijenti", methods=["GET"])
 def get_pacijenti():
@@ -181,9 +181,9 @@ def delete_pacijent(id):
 
 
 
-# =========================
+
 # LIJEČNIK CRUD
-# =========================
+
 
 @app.route("/api/lijecnici", methods=["GET"])
 def get_lijecnici():
@@ -236,9 +236,9 @@ def delete_lijecnik(id):
     return jsonify({"message": "Liječnik obrisan"})
 
 
-# =========================
+
 # TERMINI (JOIN + FULL READ)
-# =========================
+
 
 @app.route("/api/termini", methods=["GET"])
 def get_termini():
@@ -290,9 +290,9 @@ def delete_termin(id):
     return jsonify({"message": "Termin obrisan"})
 
 
-# =========================
+
 # OSTALO (FULL READ)
-# =========================
+
 
 @app.route("/api/recepti", methods=["GET"])
 def get_recepti():
@@ -358,9 +358,9 @@ def get_prituzbe():
     ])
 
 
-# =========================
+
 # RUN
-# =========================
+
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -135,7 +135,11 @@ def get_pacijenti():
             "oib": p.oib,
             "ime": p.ime,
             "prezime": p.prezime,
-            "email": p.email
+            "email": p.email,
+            "datum_rodenja": str(p.datum_rodenja) if p.datum_rodenja else None,
+            "spol": p.spol,
+            "adresa": p.adresa,
+            "telefon": p.telefon
         }
         for p in Pacijent.query.all()
     ])
@@ -188,7 +192,11 @@ def get_lijecnici():
             "lijecnik_id": l.lijecnik_id,
             "ime": l.ime,
             "prezime": l.prezime,
-            "specijalizacija": l.specijalizacija
+            "specijalizacija": l.specijalizacija,
+            "email": l.email,
+            "ustanova_id": l.ustanova_id,
+            "oib": l.oib,
+            "broj_licence": l.broj_licence,
         }
         for l in Lijecnik.query.all()
     ])
@@ -247,7 +255,14 @@ def get_termini():
             "napomena": t.napomena,
             "video_konzultacija": t.video_konzultacija,
             "pacijent": f"{p.ime} {p.prezime}",
-            "lijecnik": f"{l.ime} {l.prezime}"
+            "lijecnik": f"{l.ime} {l.prezime}",
+            "pacijent_id": t.pacijent_id,
+            "lijecnik_id": t.lijecnik_id,
+            "ustanova_id": t.ustanova_id,
+            "oib_pacijenta": p.oib,
+            "oib_lijecnika": l.oib,
+            "broj_licence_lijecnika": l.broj_licence,
+            "specijalizacija_lijecnika": l.specijalizacija
         }
         for t, p, l in data
     ])
